@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap");
+
+:root {
+  --primaryColor: #82e3a4;
+  --primaryColorShadow: #6ec98e;
+  --bgColor: #030527;
+  --fontColor: rgb(235, 222, 247);
+  --fontColor2: rgb(154 154 168);
+  --fontSize: 18px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "IBM Plex Sans Arabic", sans-serif;
+}
+html,
+body {
+  scroll-behavior: smooth;
+}
+body {
+  background: url("./assets/img/mainBG.svg");
+  background-size: contain;
+  background-color: var(--bgColor);
+  color: var(--fontColor);
+}
+.active {
+  color: var(--primaryColor) !important;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+.title {
+  width: 100%;
+  text-align: center;
+  color: var(--fontColor);
+  text-transform: uppercase;
+  font-weight: 300;
+  padding: 80px 0 30px 0;
+}
+.modal-content {
+  border: 1px solid #2cade4;
+  background: var(--bgColor) !important;
+}
+.modal-title {
+  color: var(--fontColor) !important;
+}
+.modal-header .btn-close {
+  color: #a7a7a7;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.title2 {
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--fontColor);
+}
+.title2 span {
+  color: var(--primaryColor);
+}
+.animation {
+  width: 100%;
+  animation: animate 2s linear infinite alternate;
+}
+@keyframes animate {
+  0% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(7px);
+  }
+}
+
+#glow {
+  color: #fff;
+  text-align: center;
+  animation-delay: 1000;
+  animation: glow 1s ease-in-out infinite alternate;
+  text-shadow: 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
+}
+
+@keyframes glow{
+  to {
+    text-shadow: 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
+  }
+}

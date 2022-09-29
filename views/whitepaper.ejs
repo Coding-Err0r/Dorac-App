@@ -1,0 +1,118 @@
+<%- include('./partials/header1.ejs'); %>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TK4P8J6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+	<header class="navbar sticky-top p-2 shadow bg-black">
+		<nav class="navbar sticky-top"> 
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-white fw-bold" href="/whitepaper">
+        <span class="glow">DORAC Whitepaper</span>
+      </a> 
+      <a class="navbar text-decoration-none col-md-3 col-lg-2 me-0 px-3 text-white fw-bold" href="/">
+        <span class="glow">Home</span>
+      </a> 
+    </nav>
+    <button class="navbar-toggler position-absolute d-md-none collapsed text-white mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"><i class="bi bi-list"></i></span> </button>
+  </header>
+		<div class="container-fluid mt-2" style="max-width:1500px">
+			<div class="row">
+				<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+					<div class="position-sticky">
+						<ul class="nav flex-column mt-5">
+              <% data.forEach(function(page) { %>
+								<% if (page.type === "page") { %>
+									<li class="nav-item"> <a class="nav-link text-break" href="/whitepaper/<%= page._id %>"><%= page.title %></a></li>
+								<% } else { %>
+									<li class="nav-item has-submenu">
+										<a class="nav-link" href="#"><%= page.title %></a>
+										<ul class="submenu collapse">
+											<% page.subcontent.forEach(function(subpage) { %>
+												<li><a class="nav-link" href="/whitepaper/<%= page._id %>?groupID=<%= subpage._id %>"><%= subpage.title %></a></li>
+											<% }); %>		
+										</ul>
+									</li>
+								<% } %>
+              <% }); %>		
+						</ul>
+					</div>
+				</nav>
+				<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-2">
+					<script src="https://cdn.jsdelivr.net/npm/editorjs-parser@1/build/Parser.browser.min.js"></script>
+					<div class="card border-0">
+						<div class="card-header bg-white">
+							<h2 class="fw-bold"><%= title %></h2></div>
+						<div id="content" class="card-body" style="overflow-x: auto"> </div>
+					</div>
+					<div class="container-fluid">
+  <div class="row">
+        <div class="col-6 d-inline-block text-truncate">
+      <a type="button" href="/whitepaper/<%= prev._id %>"
+        class="btn btn-primary-outline text-left shadow d-flex justify-content-between">
+        <i class="bi bi-arrow-left"></i>
+        <p class="d-inline-block text-truncate">
+          <small class="text-muted">Previous</small><br>
+          <%= prev.title %>
+        </p>
+      </a>
+    </div>
+            <div class="col-6">
+      <a type="button" href="/whitepaper/<%= next._id %>"
+        class="btn btn-primary-outline text-left shadow d-flex justify-content-between">
+        <p class="d-inline-block text-truncate">
+          <small class="text-muted">Next</small><br>
+          <%= next.title %>
+        </p>
+        <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+      </div>
+</div>
+					<hr>
+					<div class="mb-4"><small>Last updated <strong><%= moment(updatedAt).fromNow() %></strong></small></div>
+					<script>
+					let content = JSON.parse(<%- content %>)
+					const customParser = {
+						image: function(data, config) {
+							return `<img src="${data.file.url}" alt="${data.caption}" class="img-fluid" >`;
+						},
+					};
+					const parser = new edjsParser(undefined, customParser);
+					const markup = parser.parse(content);
+					document.getElementById('content').innerHTML = markup;
+					</script>
+				</main>
+			</div>
+		</div>
+		<!-- JavaScript Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+		</script>
+		<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelectorAll('.sidebar .nav-link').forEach(function(element) {
+					element.addEventListener('click', function(e) {
+						let nextEl = element.nextElementSibling;
+						let parentEl = element.parentElement;
+						if(nextEl) {
+							e.preventDefault();
+							let mycollapse = new bootstrap.Collapse(nextEl);
+							if(nextEl.classList.contains('show')) {
+								mycollapse.hide();
+							} else {
+								mycollapse.show();
+								// find other submenus with class=show
+								var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+								// if it exists, then close all of them
+								if(opened_submenu) {
+									new bootstrap.Collapse(opened_submenu);
+								}
+							}
+						}
+					}); // addEventListener
+				}) // forEach
+		});
+		// DOMContentLoaded  end
+		</script>
+	</body>
+
+	</html>

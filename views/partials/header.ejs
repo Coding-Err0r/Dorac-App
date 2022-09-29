@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="shortcut icon" href="/assets/img/logo.png" />
+    <link rel="stylesheet" href="/assets/css/toastify.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/toastify.js"></script>
+    <link rel="stylesheet" href="/assets/css/reset.css" />
+  </head>
+  <body>
+    <% if (loggedInUser && loggedInUser.name) { %>
+      <header class="text-gray-600 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+            <p class="ml-3 text-xl">Welcome <span class="font-semibold"><%= loggedInUser.name %></span></p>
+          </a>
+          <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+            <a class="mr-5 hover:text-gray-900" href="/">Home</a>
+          </nav>
+          <button onclick="logout()" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Logout
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+    <% } %>
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/editorjs-text-color-plugin@1.12.1/dist/bundle.js"></script>
+
+
+    <script>
+      let arrayOfOrder = []
+      const updateOrderOfDocs =  async (data) => {
+        const res = await fetch(`/page/updateOrderOfDocs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      };
+
+      $(function() {
+        $("#sortable").sortable({
+          stop: function(event, ui) {
+            arrayOfOrder = []
+            
+            $("#sortable > div").each((idx, div) => {
+              arrayOfOrder.push(div.dataset.id)
+            })
+           
+            updateOrderOfDocs(arrayOfOrder)
+          }
+        });
+      });
+      const logoutToast = Toastify({
+        text: "You are being logged out...",
+        duration: 2000,
+        gravity: "bottom"
+      });
+
+      function logout() {
+        fetch("/login", {
+          method: "DELETE",
+        });
+        logoutToast.showToast();
+        setTimeout(() => {
+          window.location.replace("/login");
+        }, 2000);
+      }
+    </script>

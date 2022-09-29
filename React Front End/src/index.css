@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply scroll-smooth bg-[#030303] font-play;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold font-play;
+  }
+  h1 {
+    @apply text-4xl sm:text-5xl md:text-6xl;
+  }
+  h2 {
+    @apply text-3xl sm:text-4xl;
+  }
+  li {
+    @apply cursor-pointer;
+  }
+  .in-wrapper {
+    @apply container mx-auto 2xl:px-16;
+  }
+}
+@layer components {
+  .wrapper {
+    @apply container mx-auto py-8 xl:py-32 px-6 2xl:px-16;
+  }
+  .just-border {
+    @apply w-[100px] h-[100px] border-2 border-dashed rounded-full flex items-center justify-center mb-6 text-3xl;
+  }
+  .title {
+    @apply text-cyan-500 font-bold uppercase;
+  }
+  .para {
+    @apply text-gray-300 tracking-wider text-lg;
+  }
+  .c-button {
+    @apply cursor-pointer rounded-full text-slate-600 shadow-lg p-3 border border-slate-200/50 dark:text-sky-200 hover:shadow-none duration-300 hover:scale-105 hover:text-sky-500 dark:hover:text-sky-500;
+  }
+  .active {
+    color: red !important;
+  }
+}

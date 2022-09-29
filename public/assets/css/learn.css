@@ -1,0 +1,128 @@
+.navigation2 {
+  background: #030527;
+}
+.learn-poster {
+  margin-top: 100px;
+  width: 100%;
+  background: url(../img/second1.png) center no-repeat;
+  background-size: 100%;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
+
+/* dogs section */
+
+.doges {
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  margin-top: 100px;
+}
+.dog {
+  width: 90%;
+  border-radius: 10px;
+  border: 2px solid #7d7d7da1;
+  transform: perspective(600px) rotateY(344deg);
+  margin-top: 10px;
+}
+.dog1 {
+  margin-top: 100px;
+  border-color: rgb(61, 61, 61);
+  margin-left: 55px;
+  box-shadow: 0px 0px 10px #000000;
+  z-index: 1;
+}
+.dog3 {
+  grid-column: 2/-1;
+  margin-top: -115px;
+  margin-left: -20px;
+  box-shadow: 0px 0px 10px #030527d9;
+  z-index: 2;
+}
+/* dogs section */
+
+.simple-para,
+.simple-para2 {
+  color: var(--fontColor2);
+  line-height: 30px;
+}
+.simple-para2,
+.margin-left {
+  padding-left: 30px;
+}
+.simple-para2 span {
+  font-weight: 700;
+  color: var(--fontColor);
+}
+
+.align-center {
+  width: 100%;
+  text-align: center;
+  padding: 40px;
+}
+.learn-image {
+  width: 100%;
+}
+
+.fac-div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+.fac-div img {
+  width: 100%;
+}
+.fac-img1 {
+  width: 100%;
+  grid-column: 1/-1;
+}
+
+.simole-para-3 {
+  color: var(--fontColor2);
+  font-size: 18px;
+  line-height: 30px;
+}
+.simole-para-3 span {
+  color: var(--fontColor);
+  font-weight: 700;
+}
+.simple-para4 {
+  font-size: 18px;
+  color: var(--fontColor2);
+  text-align: center;
+  line-height: 30px;
+}
+
+.learn-roadmap {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+.learn-roadmap h5 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px dashed var(--fontColor2);
+  font-size: 3rem;
+  font-weight: 200;
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.learn-roadmap p {
+  color: var(--fontColor2);
+  font-size: 18px;
+  line-height: 30px;
+}
+.learn-img {
+  text-align: center;
+}
+.learn-img img {
+  width: 50%;
+}

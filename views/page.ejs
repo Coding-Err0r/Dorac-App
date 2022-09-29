@@ -1,0 +1,130 @@
+<%- include('./partials/header.ejs'); %>    
+    <section class="text-gray-600 body-font">
+      <div class="container px-5 py-20 mx-auto">
+        <div class="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">
+          <div class="p-2 sm:w-2/3 mx-auto w-full">
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full flex flex-wrap justify-start px-3">
+                  <a href="/dashboard" class="text-center text-white bg-violet-600 border-0 py-2 px-8 focus:outline-none hover:bg-violet-700 rounded text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                  </a>
+                  <button onclick="savePage()" class="text-white ml-3 bg-violet-600 border-0 py-2 px-8 focus:outline-none hover:bg-violet-700 rounded text-lg">Save</button>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 sm:w-2/3 mx-auto w-full">
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="title">
+                    Title
+                  </label>
+                  <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="title" value="<%= data.title %>">
+                </div>
+              </div>
+            </div>
+            <div class="p-2 sm:w-2/3 mx-auto w-full">
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Content
+                  </label>
+                  <div id="editorjs"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      const pageID = window.location.pathname.split("/").pop()
+      const data = {}
+
+      const saveFailed = Toastify({
+        text: "Saving Failed!",
+        duration: 2000,
+        gravity: "bottom"
+      });
+
+      const saveSuccess = Toastify({
+        text: "Update Success!",
+        duration: 2000,
+        gravity: "bottom"
+      });
+
+      let titleElem = document.getElementById("title")
+
+      let content = JSON.parse(<%- data.content %>)
+      const groupID = "<%= groupID %>"
+      const editor = new EditorJS({
+        holder: 'editorjs',
+        data: content,
+        tools: {
+            Color: {
+              class: window.ColorPlugin, 
+              config: {
+                colorCollections: [ '#ff9ff3', '#feca57', '#ff6b6b', '#48dbfb', '#1dd1a1', '#f368e0','#ff9f43','#ee5253','#0abde3','#10ac84','#54a0ff','#5f27cd','#576574','#222f3e' ,'#FFF'],
+                defaultColor: '#ff6b6b',
+                type: 'text',
+                customPicker: true 
+              }     
+            },
+            Marker: {
+              class: window.ColorPlugin, 
+              config: {
+                colorCollections: ['#f5eb6f4a' ,'#ff9ff3', '#feca57', '#ff6b6b', '#48dbfb', '#1dd1a1', '#f368e0','#ff9f43','#ee5253','#0abde3','#10ac84','#54a0ff','#5f27cd','#576574','#222f3e' ,'#FFF'],
+                defaultColor: '#f5eb6f4a',
+                type: 'marker', 
+              }       
+            },
+            header: {
+              class: Header,
+              inlineToolbar: [ 'link' ],
+            },
+            paragraph: {
+                class: Paragraph,
+                inlineToolbar: true,
+            },
+	    underline: Underline,
+            image: {
+              class: ImageTool,
+              config: {
+                endpoints: {
+                  byFile: '/page/uploadBlockFile',
+                }
+              }
+            },
+            list: {
+              class: List,
+              inlineToolbar: true,
+              config: {
+                defaultStyle: 'unordered'
+              }
+            },
+        }
+      });
+
+      const makeReq =  async (data) => {
+        const res = await fetch(`/page/${pageID}?groupID=${groupID}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const status = res.status
+        if (status === 200) saveSuccess.showToast()
+      };
+
+      function savePage(){
+        editor.save().then((output) => {
+            data.content = output
+            data.title = titleElem.value
+            makeReq(data)
+        }).catch((error) => {
+            console.log('Saving failed: ', error)
+            saveFailed.showToast()
+        });
+      }
+    </script>
+  </body>
+</html>
